@@ -16,10 +16,12 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     salt: {
       type: String,
       required: true,
+      select: false,
     },
   },
   modelOptions
@@ -38,7 +40,7 @@ userSchema.methods.validPassword = function (password) {
     .pbkdf2Sync(password, this.salt, 1000, 64, "sha512")
     .toString("hex");
 
-    return this.password === hash;
+  return this.password === hash;
 };
 
 const userModel = mongoose.model("User", userSchema);

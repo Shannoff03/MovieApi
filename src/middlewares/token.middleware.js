@@ -1,5 +1,5 @@
 import jsonwebtoken from "jsonwebtoken";
-import responseHandler from "../handlers/response.handler";
+import responseHandler from "../handlers/response.handler.js";
 import userModel from "../models/user.model.js";
 
 const tokenDecode = (req) => {
@@ -27,8 +27,8 @@ const auth = async (req, res, next) => {
 
   if (!user) return responseHandler.unauthorize(res);
 
-  req,user = user
+  req, (user = user);
   next();
 };
 
-export default { auth,tokenDecode}
+export default { auth, tokenDecode };
