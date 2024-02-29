@@ -13,8 +13,8 @@ const modelOptions = {
       return obj;
     },
   },
-  versionKey:false,
-  timestamps:true
+  versionKey: false,
+  timestamps: true,
 };
 
 export default modelOptions;
