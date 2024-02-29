@@ -21,7 +21,7 @@ const signup = async (req, res) => {
 
     const token = jsonwebtoken.sign(
       { data: user.id },
-      process.env.Token_SECRET,
+      process.env.TOKEN_SECRET,
       { expiresIn: "24h" }
     );
 
@@ -38,6 +38,7 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
   try {
     const { username, password } = req.body;
+
     const user = await userModel
       .findOne({ username })
       .select("username password salt id displayName");
@@ -49,7 +50,7 @@ const signin = async (req, res) => {
 
     const token = jsonwebtoken.sign(
       { data: user.id },
-      process.env.Token_SECRET,
+      process.env.TOKEN_SECRET,
       { expiresIn: "24h" }
     );
 
@@ -69,6 +70,7 @@ const signin = async (req, res) => {
 const updatePassword = async (req, res) => {
   try {
     const { password, newPassword } = req.body;
+
     const user = await userModel
       .findById(req.user.id)
       .select("password id salt");

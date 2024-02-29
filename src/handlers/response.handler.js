@@ -4,7 +4,7 @@ const responseWithData = (res, statusCode, data) =>
 const error = (res) =>
   responseWithData(res, 500, {
     status: 500,
-    message: "Oops! Something wrong!",
+    message: "Oops! Something worng!",
   });
 
 const badrequest = (res, message) =>
@@ -26,7 +26,7 @@ const unauthorize = (res) =>
 const notfound = (res) =>
   responseWithData(res, 404, {
     status: 404,
-    message: "Resource not Found",
+    message: "Resource not found",
   });
 
 export default {

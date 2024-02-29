@@ -4,12 +4,12 @@ import userModel from "../models/user.model.js";
 
 const tokenDecode = (req) => {
   try {
-    const bearerHeader = req.headers["Authorization"];
+    const bearerHeader = req.headers["authorization"];
 
     if (bearerHeader) {
       const token = bearerHeader.split(" ")[1];
 
-      return jsonwebtoken.verify(token, process.env.Token_SECRET);
+      return jsonwebtoken.verify(token, process.env.TOKEN_SECRET);
     }
 
     return false;
@@ -21,13 +21,14 @@ const tokenDecode = (req) => {
 const auth = async (req, res, next) => {
   const tokenDecoded = tokenDecode(req);
 
-  if (!tokenDecode) return responseHandler.unauthorize(res);
+  if (!tokenDecoded) return responseHandler.unauthorize(res);
 
   const user = await userModel.findById(tokenDecoded.data);
 
   if (!user) return responseHandler.unauthorize(res);
 
-  req, (user = user);
+  req.user = user;
+
   next();
 };
 

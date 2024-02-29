@@ -9,11 +9,13 @@ const getList = async (req, res) => {
   try {
     const { page } = req.query;
     const { mediaType, mediaCategory } = req.params;
+
     const response = await tmdbApi.mediaList({
       mediaType,
       mediaCategory,
       page,
     });
+
     return responseHandler.ok(res, response);
   } catch {
     responseHandler.error(res);
@@ -56,15 +58,19 @@ const getDetail = async (req, res) => {
     const params = { mediaType, mediaId };
 
     const media = await tmdbApi.mediaDetail(params);
+
     media.credits = await tmdbApi.mediaCredits(params);
 
     const videos = await tmdbApi.mediaVideos(params);
+
     media.videos = videos;
 
     const recommend = await tmdbApi.mediaRecommend(params);
+
     media.recommend = recommend.results;
 
     media.images = await tmdbApi.mediaImages(params);
+
     const tokenDecoded = tokenMiddlerware.tokenDecode(req);
 
     if (tokenDecoded) {
@@ -82,10 +88,11 @@ const getDetail = async (req, res) => {
     media.reviews = await reviewModel
       .find({ mediaId })
       .populate("user")
-      .sort("-createAt");
+      .sort("-createdAt");
 
     responseHandler.ok(res, media);
-  } catch {
+  } catch (e) {
+    console.log(e);
     responseHandler.error(res);
   }
 };
